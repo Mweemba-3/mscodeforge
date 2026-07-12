@@ -2,10 +2,12 @@
 // MS CODEFORGE - Supabase Client
 // ============================================
 
+// Replace with your actual Supabase credentials
 const SUPABASE_URL = 'https://abdvokmzvnezyijebxmy.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiZHZva216dm5lenlpamVieG15Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM4ODQ2ODAsImV4cCI6MjA5OTQ2MDY4MH0.iWUs4fInt8oQZm4Bo2Ql7TA1p98fN5BbyQ2ZGAC_Wio';
 
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Initialize Supabase client correctly
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 class MS_CodeForge_API {
     // ==========================================
@@ -25,7 +27,6 @@ class MS_CodeForge_API {
                 throw new Error('Invalid credentials');
             }
 
-            // Store session
             sessionStorage.setItem('admin_user', JSON.stringify(data));
             return data;
         } catch (error) {
@@ -46,7 +47,7 @@ class MS_CodeForge_API {
 
     static async isAuthenticated() {
         const user = sessionStorage.getItem('admin_user');
-        return user !== null && user !== undefined;
+        return user !== null && user !== undefined && user !== 'undefined';
     }
 
     // ==========================================
@@ -125,6 +126,31 @@ class MS_CodeForge_API {
     }
 
     // ==========================================
+    // PROJECT MEDIA
+    // ==========================================
+    
+    static async addProjectMedia(projectId, mediaData) {
+        const { data, error } = await supabase
+            .from('project_media')
+            .insert([{ ...mediaData, project_id: projectId }])
+            .select()
+            .single();
+
+        if (error) throw error;
+        return data;
+    }
+
+    static async deleteProjectMedia(mediaId) {
+        const { error } = await supabase
+            .from('project_media')
+            .delete()
+            .eq('id', mediaId);
+
+        if (error) throw error;
+        return true;
+    }
+
+    // ==========================================
     // BLOG
     // ==========================================
     
@@ -185,6 +211,21 @@ class MS_CodeForge_API {
         return true;
     }
 
+    static async publishBlogPost(id) {
+        const { data, error } = await supabase
+            .from('blog_posts')
+            .update({ 
+                status: 'Published', 
+                published_at: new Date().toISOString()
+            })
+            .eq('id', id)
+            .select()
+            .single();
+
+        if (error) throw error;
+        return data;
+    }
+
     // ==========================================
     // SETTINGS
     // ==========================================
@@ -213,5 +254,30 @@ class MS_CodeForge_API {
 
         if (error) throw error;
         return data;
+    }
+
+    // ==========================================
+    // FILE UPLOAD
+    // ==========================================
+    
+    static async uploadFile(bucket, path, file) {
+        const { data, error } = await supabase
+            .storage
+            .from(bucket)
+            .upload(path, file, {
+                cacheControl: '3600',
+                upsert: true
+            });
+
+        if (error) throw error;
+        return data;
+    }
+
+    static getPublicUrl(bucket, path) {
+        const { data } = supabase
+            .storage
+            .from(bucket)
+            .getPublicUrl(path);
+        return data.publicUrl;
     }
 }
