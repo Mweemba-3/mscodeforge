@@ -165,9 +165,7 @@
             border: 1px solid #DC2626;
         }
 
-        /* ==========================================
-           LOGIN SCREEN
-           ========================================== */
+        /* LOGIN */
         .login-screen {
             min-height: 100vh;
             display: flex;
@@ -434,7 +432,6 @@
             margin: 0;
         }
 
-        /* Stats */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -926,89 +923,25 @@
         </div>
     </div>
 
-    <script src="/js/supabase.js"></script>
+    <!-- ==========================================
+    SCRIPTS
+    ========================================== -->
     <script>
         // ============================================
-        // MS CODEFORGE - Admin Dashboard (Inline)
+        // SUPABASE CONFIG - REPLACE WITH YOUR CREDENTIALS
         // ============================================
-
-        document.addEventListener('DOMContentLoaded', function() {
-            initAuth();
-            initNavigation();
-            initProjects();
-            initBlog();
-            initSettings();
-        });
-
+        const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+        
+        // Initialize Supabase
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
         // ============================================
-        // AUTH - FIXED
+        // MS CODEFORGE API
         // ============================================
-
-        function initAuth() {
-            const isAuth = checkAuth();
-            
-            if (isAuth) {
-                showDashboard();
-            } else {
-                showLogin();
-            }
-
-            // LOGIN BUTTON - Using click event not form submit
-            const loginBtn = document.getElementById('loginBtn');
-            if (loginBtn) {
-                loginBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    handleLogin();
-                });
-            }
-
-            // Also allow Enter key on inputs
-            document.getElementById('loginUsername').addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') handleLogin();
-            });
-            document.getElementById('loginPassword').addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') handleLogin();
-            });
-
-            // Logout
-            const logoutBtn = document.getElementById('logoutBtn');
-            if (logoutBtn) {
-                logoutBtn.addEventListener('click', function() {
-                    sessionStorage.removeItem('admin_user');
-                    showLogin();
-                });
-            }
-        }
-
-        function checkAuth() {
-            const user = sessionStorage.getItem('admin_user');
-            return user !== null && user !== undefined && user !== 'undefined';
-        }
-
-        async function handleLogin() {
-            const username = document.getElementById('loginUsername').value.trim();
-            const password = document.getElementById('loginPassword').value.trim();
-            const errorEl = document.getElementById('loginError');
-            const loginBtn = document.getElementById('loginBtn');
-            
-            // Hide error
-            errorEl.classList.remove('visible');
-            errorEl.style.display = 'none';
-            
-            // Validate
-            if (!username || !password) {
-                errorEl.textContent = 'Please enter both username and password';
-                errorEl.style.display = 'block';
-                errorEl.classList.add('visible');
-                return;
-            }
-            
-            try {
-                // Disable button
-                loginBtn.disabled = true;
-                loginBtn.textContent = 'Signing in...';
-                
-                // Attempt login via Supabase
+        const MS_CodeForge_API = {
+            // AUTH
+            async signIn(username, password) {
                 const { data, error } = await supabase
                     .from('admin_users')
                     .select('*')
@@ -1020,10 +953,253 @@
                     throw new Error('Invalid credentials');
                 }
 
-                // Store session
                 sessionStorage.setItem('admin_user', JSON.stringify(data));
+                return data;
+            },
+
+            signOut() {
+                sessionStorage.removeItem('admin_user');
+                return true;
+            },
+
+            getCurrentUser() {
+                const user = sessionStorage.getItem('admin_user');
+                return user ? JSON.parse(user) : null;
+            },
+
+            isAuthenticated() {
+                const user = sessionStorage.getItem('admin_user');
+                return user !== null && user !== undefined && user !== 'undefined';
+            },
+
+            // PROJECTS
+            async getProjects(options = {}) {
+                let query = supabase
+                    .from('projects')
+                    .select('*, project_media(*)')
+                    .eq('published', true)
+                    .order('display_order', { ascending: true });
+
+                if (options.featured) query = query.eq('featured', true);
+                if (options.status) query = query.eq('status', options.status);
+                if (options.limit) query = query.limit(options.limit);
+
+                const { data, error } = await query;
+                if (error) throw error;
+                return data;
+            },
+
+            async getFeaturedProject() {
+                const { data, error } = await supabase
+                    .from('projects')
+                    .select('*, project_media(*)')
+                    .eq('featured', true)
+                    .eq('published', true)
+                    .limit(1);
+
+                if (error) throw error;
+                return data && data.length > 0 ? data[0] : null;
+            },
+
+            async getAllProjects() {
+                const { data, error } = await supabase
+                    .from('projects')
+                    .select('*, project_media(*)')
+                    .order('display_order', { ascending: true });
+
+                if (error) throw error;
+                return data;
+            },
+
+            async createProject(projectData) {
+                const { data, error } = await supabase
+                    .from('projects')
+                    .insert([projectData])
+                    .select()
+                    .single();
+
+                if (error) throw error;
+                return data;
+            },
+
+            async updateProject(id, projectData) {
+                const { data, error } = await supabase
+                    .from('projects')
+                    .update(projectData)
+                    .eq('id', id)
+                    .select()
+                    .single();
+
+                if (error) throw error;
+                return data;
+            },
+
+            async deleteProject(id) {
+                const { error } = await supabase
+                    .from('projects')
+                    .delete()
+                    .eq('id', id);
+
+                if (error) throw error;
+                return true;
+            },
+
+            // BLOG
+            async getBlogPosts(options = {}) {
+                let query = supabase
+                    .from('blog_posts')
+                    .select('*')
+                    .eq('status', 'Published')
+                    .order('published_at', { ascending: false });
+
+                if (options.limit) query = query.limit(options.limit);
+
+                const { data, error } = await query;
+                if (error) throw error;
+                return data;
+            },
+
+            async getAllBlogPosts() {
+                const { data, error } = await supabase
+                    .from('blog_posts')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+                return data;
+            },
+
+            async createBlogPost(postData) {
+                const { data, error } = await supabase
+                    .from('blog_posts')
+                    .insert([postData])
+                    .select()
+                    .single();
+
+                if (error) throw error;
+                return data;
+            },
+
+            async updateBlogPost(id, postData) {
+                const { data, error } = await supabase
+                    .from('blog_posts')
+                    .update(postData)
+                    .eq('id', id)
+                    .select()
+                    .single();
+
+                if (error) throw error;
+                return data;
+            },
+
+            async deleteBlogPost(id) {
+                const { error } = await supabase
+                    .from('blog_posts')
+                    .delete()
+                    .eq('id', id);
+
+                if (error) throw error;
+                return true;
+            },
+
+            // SETTINGS
+            async getSettings() {
+                const { data, error } = await supabase
+                    .from('company_settings')
+                    .select('*');
+
+                if (error) throw error;
                 
-                // Show dashboard
+                const settings = {};
+                data.forEach(item => {
+                    settings[item.key] = item.value;
+                });
+                return settings;
+            },
+
+            async updateSetting(key, value) {
+                const { data, error } = await supabase
+                    .from('company_settings')
+                    .update({ value: value, updated_at: new Date().toISOString() })
+                    .eq('key', key)
+                    .select()
+                    .single();
+
+                if (error) throw error;
+                return data;
+            }
+        };
+    </script>
+
+    <script>
+        // ============================================
+        // ADMIN DASHBOARD
+        // ============================================
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initAuth();
+            initNavigation();
+            initProjects();
+            initBlog();
+            initSettings();
+        });
+
+        // ============================================
+        // AUTH
+        // ============================================
+
+        function initAuth() {
+            const isAuth = MS_CodeForge_API.isAuthenticated();
+            
+            if (isAuth) {
+                showDashboard();
+            } else {
+                showLogin();
+            }
+
+            // Login button click
+            document.getElementById('loginBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                handleLogin();
+            });
+
+            // Enter key support
+            document.getElementById('loginUsername').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') handleLogin();
+            });
+            document.getElementById('loginPassword').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') handleLogin();
+            });
+
+            // Logout
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                MS_CodeForge_API.signOut();
+                showLogin();
+            });
+        }
+
+        async function handleLogin() {
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            const errorEl = document.getElementById('loginError');
+            const loginBtn = document.getElementById('loginBtn');
+            
+            errorEl.classList.remove('visible');
+            errorEl.style.display = 'none';
+            
+            if (!username || !password) {
+                errorEl.textContent = 'Please enter both username and password';
+                errorEl.style.display = 'block';
+                errorEl.classList.add('visible');
+                return;
+            }
+            
+            try {
+                loginBtn.disabled = true;
+                loginBtn.textContent = 'Signing in...';
+                
+                await MS_CodeForge_API.signIn(username, password);
+                
                 showDashboard();
                 loadDashboardData();
                 
@@ -1040,16 +1216,18 @@
         function showDashboard() {
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('dashboardScreen').style.display = 'block';
+            const user = MS_CodeForge_API.getCurrentUser();
+            if (user) {
+                document.getElementById('adminUser').textContent = user.username;
+            }
         }
 
         function showLogin() {
             document.getElementById('loginScreen').style.display = 'flex';
             document.getElementById('dashboardScreen').style.display = 'none';
             document.getElementById('loginForm').reset();
-            
-            const errorEl = document.getElementById('loginError');
-            errorEl.style.display = 'none';
-            errorEl.classList.remove('visible');
+            document.getElementById('loginError').style.display = 'none';
+            document.getElementById('loginError').classList.remove('visible');
         }
 
         // ============================================
@@ -1100,12 +1278,6 @@
                 document.getElementById('publishedProjects').textContent = projects?.filter(function(p) { return p.published; }).length || 0;
                 document.getElementById('totalBlogPosts').textContent = posts?.length || 0;
                 document.getElementById('publishedPosts').textContent = posts?.filter(function(p) { return p.status === 'Published'; }).length || 0;
-                
-                const user = sessionStorage.getItem('admin_user');
-                if (user) {
-                    const userData = JSON.parse(user);
-                    document.getElementById('adminUser').textContent = userData.username;
-                }
                 
                 renderProjectsAdmin(projects);
                 renderBlogAdmin(posts);
