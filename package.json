@@ -1,0 +1,7 @@
+{
+  "name": "ms-codeforge",
+  "version": "1.0.0",
+  "scripts": {
+    "vercel-build": "echo 'Static build complete'"
+  }
+}

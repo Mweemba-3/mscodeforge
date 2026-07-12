@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MS CodeForge - Admin</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <style>
+        /* ============================================
+           MS CODEFORGE - Admin Styles
+           ============================================ */
+
+        :root {
+            --accent: #2563EB;
+            --accent-hover: #1D4ED8;
+            --accent-light: #EFF6FF;
+            --black: #0A0A0A;
+            --dark: #111111;
+            --gray-950: #1A1A1A;
+            --gray-900: #2D2D2D;
+            --gray-800: #404040;
+            --gray-700: #4A4A4A;
+            --gray-600: #6B6B6B;
+            --gray-500: #808080;
+            --gray-400: #A3A3A3;
+            --gray-300: #D4D4D4;
+            --gray-200: #E5E5E5;
+            --gray-100: #F5F5F5;
+            --gray-50: #FAFAFA;
+            --white: #FFFFFF;
+            --font-sans: -apple-system, 'Segoe UI', 'Roboto', sans-serif;
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--gray-50);
+            color: var(--black);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .accent {
+            color: var(--accent);
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 36px;
+            background: var(--black);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            min-height: 52px;
+        }
+
+        .btn-primary:hover {
+            background: var(--gray-900);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 36px;
+            background: transparent;
+            color: var(--black);
+            border: 1px solid var(--gray-300);
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            min-height: 52px;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--black);
+            background: var(--gray-50);
+            transform: translateY(-1px);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .form-group label {
+            font-size: 0.813rem;
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            padding: 12px 16px;
+            border: 1px solid var(--gray-200);
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-family: var(--font-sans);
+            transition: var(--transition);
+            background: var(--white);
+            width: 100%;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+        }
+
+        .form-feedback {
+            padding: 16px;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            display: none;
+        }
+
+        .form-feedback.success {
+            display: block;
+            background: var(--accent-light);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+
+        .form-feedback.error {
+            display: block;
+            background: #FEF2F2;
+            color: #DC2626;
+            border: 1px solid #DC2626;
+        }
+
+        /* ==========================================
+           LOGIN SCREEN
+           ========================================== */
+        .login-screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gray-50);
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Blendable Background on Login */
+        .login-screen::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 80%;
+            height: 150%;
+            background: radial-gradient(ellipse at 70% 50%, var(--accent-light) 0%, transparent 70%);
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        .login-screen::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -20%;
+            width: 60%;
+            height: 100%;
+            background: radial-gradient(ellipse at 30% 50%, rgba(37,99,235,0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .login-container {
+            max-width: 420px;
+            width: 100%;
+            padding: 48px 40px;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.06);
+        }
+
+        .login-brand {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .login-brand .logo-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 16px;
+            border: 2px solid var(--accent-light);
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--white);
+            box-shadow: 0 4px 20px rgba(37,99,235,0.15);
+        }
+
+        .login-brand .logo-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+
+        .login-brand .brand-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .login-brand .brand-name span {
+            color: var(--accent);
+        }
+
+        .login-brand .brand-tagline {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .login-error {
+            color: #DC2626;
+            font-size: 0.875rem;
+            display: none;
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        /* ==========================================
+           DASHBOARD
+           ========================================== */
+        .dashboard-screen {
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Blendable Background on Dashboard */
+        .dashboard-screen::before {
+            content: '';
+            position: fixed;
+            top: -40%;
+            right: -20%;
+            width: 60%;
+            height: 80%;
+            background: radial-gradient(ellipse at 70% 50%, var(--accent-light) 0%, transparent 70%);
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .dashboard-header {
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 12px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-brand .logo-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--accent-light);
+            padding: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--white);
+        }
+
+        .header-brand .logo-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+
+        .header-brand .brand-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+
+        .header-brand .brand-text .ms {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .header-brand .brand-text .ms span {
+            color: var(--accent);
+        }
+
+        .header-brand .brand-text .tagline {
+            font-size: 0.45rem;
+            color: var(--gray-500);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .header-badge {
+            font-size: 0.65rem;
+            background: var(--accent-light);
+            padding: 2px 10px;
+            border-radius: 4px;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .dashboard-layout {
+            display: flex;
+            min-height: calc(100vh - 68px);
+            position: relative;
+            z-index: 1;
+        }
+
+        .dashboard-sidebar {
+            width: 220px;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(8px);
+            border-right: 1px solid var(--gray-200);
+            padding: 24px 0;
+            flex-shrink: 0;
+        }
+
+        .dashboard-sidebar .nav-item {
+            display: block;
+            width: 100%;
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            text-align: left;
+            font-size: 0.875rem;
+            color: var(--gray-700);
+            cursor: pointer;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .dashboard-sidebar .nav-item:hover {
+            background: var(--gray-50);
+            color: var(--black);
+        }
+
+        .dashboard-sidebar .nav-item.active {
+            background: var(--accent-light);
+            color: var(--accent);
+            border-left-color: var(--accent);
+        }
+
+        .dashboard-main {
+            flex: 1;
+            padding: 32px 0;
+        }
+
+        .view-panel {
+            display: none;
+        }
+
+        .view-panel.active {
+            display: block;
+        }
+
+        .view-panel h2 {
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .view-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .view-header h2 {
+            margin: 0;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            padding: 24px;
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .stat-card span:last-child {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            margin-top: 32px;
+        }
+
+        .quick-actions h3 {
+            margin-bottom: 16px;
+        }
+
+        .action-grid {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 12px 24px;
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: var(--transition);
+        }
+
+        .action-btn:hover {
+            border-color: var(--accent);
+            background: var(--accent-light);
+        }
+
+        /* Admin Lists */
+        .admin-item {
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--white);
+        }
+
+        .admin-item h4 {
+            margin: 0;
+        }
+
+        .admin-item .item-meta {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+        }
+
+        .admin-item .item-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .admin-item .item-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px 8px;
+            font-size: 0.875rem;
+        }
+
+        .admin-item .item-actions .edit-btn {
+            color: var(--accent);
+        }
+
+        .admin-item .item-actions .delete-btn {
+            color: #DC2626;
+        }
+
+        /* Settings */
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .settings-grid .form-group:last-child {
+            grid-column: 1 / -1;
+        }
+
+        /* Modals */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--white);
+            border-radius: 12px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 32px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--gray-500);
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: var(--black);
+        }
+
+        .modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .dashboard-layout {
+                flex-direction: column;
+            }
+            
+            .dashboard-sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid var(--gray-200);
+                padding: 12px 0;
+                display: flex;
+                overflow-x: auto;
+                background: rgba(255,255,255,0.95);
+            }
+            
+            .dashboard-sidebar .nav-item {
+                padding: 8px 16px;
+                border-left: none;
+                border-bottom: 2px solid transparent;
+                white-space: nowrap;
+            }
+            
+            .dashboard-sidebar .nav-item.active {
+                border-bottom-color: var(--accent);
+                border-left-color: transparent;
+            }
+            
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .login-container {
+                padding: 32px 24px;
+            }
+
+            .login-brand .logo-circle {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            
+            .view-header {
+                flex-direction: column;
+                gap: 12px;
+                align-items: stretch;
+            }
+
+            .header-brand .logo-circle {
+                width: 32px;
+                height: 32px;
+            }
+
+            .login-container {
+                padding: 24px 16px;
+            }
+
+            .login-brand .logo-circle {
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ==========================================
+    LOGIN SCREEN
+    ========================================== -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-container">
+            <div class="login-brand">
+                <div class="logo-circle">
+                    <img src="/assets/images/logo.png" alt="MS CodeForge" onerror="this.parentElement.innerHTML='⌘'">
+                </div>
+                <div class="brand-name">MS<span>CodeForge</span></div>
+                <div class="brand-tagline">Engineering · Innovation · Excellence</div>
+            </div>
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="loginUsername" placeholder="mscodeforge369" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn-primary">Sign In</button>
+                <div id="loginError" class="login-error">Invalid credentials</div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==========================================
+    DASHBOARD
+    ========================================== -->
+    <div id="dashboardScreen" class="dashboard-screen" style="display:none;">
+        <header class="dashboard-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="header-brand">
+                        <div class="logo-circle">
+                            <img src="/assets/images/logo.png" alt="MS CodeForge" onerror="this.parentElement.innerHTML='⌘'">
+                        </div>
+                        <div class="brand-text">
+                            <span class="ms">MS<span>CodeForge</span></span>
+                            <span class="tagline">Engineering · Innovation · Excellence</span>
+                        </div>
+                        <span class="header-badge">Admin</span>
+                    </div>
+                    <div>
+                        <span id="adminUser" style="margin-right:16px;font-size:0.8rem;color:var(--gray-600);"></span>
+                        <button id="logoutBtn" class="btn-secondary" style="padding:8px 16px;font-size:0.8rem;">Sign Out</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-layout">
+            <aside class="dashboard-sidebar">
+                <button class="nav-item active" data-view="overview">Overview</button>
+                <button class="nav-item" data-view="projects">Projects</button>
+                <button class="nav-item" data-view="blog">Blog</button>
+                <button class="nav-item" data-view="settings">Settings</button>
+            </aside>
+
+            <main class="dashboard-main">
+                <div class="container">
+                    <!-- OVERVIEW -->
+                    <div id="view-overview" class="view-panel active">
+                        <h2>Overview</h2>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <span class="stat-value" id="totalProjects">0</span>
+                                <span>Total Projects</span>
+                            </div>
+                            <div class="stat-card">
+                                <span class="stat-value" id="publishedProjects">0</span>
+                                <span>Published</span>
+                            </div>
+                            <div class="stat-card">
+                                <span class="stat-value" id="totalBlogPosts">0</span>
+                                <span>Blog Posts</span>
+                            </div>
+                            <div class="stat-card">
+                                <span class="stat-value" id="publishedPosts">0</span>
+                                <span>Published</span>
+                            </div>
+                        </div>
+                        <div class="quick-actions">
+                            <h3>Quick Actions</h3>
+                            <div class="action-grid">
+                                <button class="action-btn" data-view="projects">+ New Project</button>
+                                <button class="action-btn" data-view="blog">+ New Blog Post</button>
+                                <button class="action-btn" data-view="settings">⚙ Settings</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PROJECTS -->
+                    <div id="view-projects" class="view-panel">
+                        <div class="view-header">
+                            <h2>Projects</h2>
+                            <button id="addProjectBtn" class="btn-primary" style="padding:8px 20px;font-size:0.8rem;">+ New Project</button>
+                        </div>
+                        <div id="projectsAdminGrid"></div>
+                    </div>
+
+                    <!-- BLOG -->
+                    <div id="view-blog" class="view-panel">
+                        <div class="view-header">
+                            <h2>Blog Posts</h2>
+                            <button id="addBlogBtn" class="btn-primary" style="padding:8px 20px;font-size:0.8rem;">+ New Post</button>
+                        </div>
+                        <div id="blogAdminGrid"></div>
+                    </div>
+
+                    <!-- SETTINGS -->
+                    <div id="view-settings" class="view-panel">
+                        <h2>Settings</h2>
+                        <form id="settingsForm">
+                            <div class="settings-grid">
+                                <div class="form-group">
+                                    <label>Company Name</label>
+                                    <input type="text" id="settingsCompanyName">
+                                </div>
+                                <div class="form-group">
+                                    <label>Tagline</label>
+                                    <input type="text" id="settingsTagline">
+                                </div>
+                                <div class="form-group">
+                                    <label>Contact Email</label>
+                                    <input type="email" id="settingsEmail">
+                                </div>
+                                <div class="form-group">
+                                    <label>Contact Phone</label>
+                                    <input type="text" id="settingsPhone">
+                                </div>
+                                <div class="form-group">
+                                    <label>Contact Address</label>
+                                    <input type="text" id="settingsAddress">
+                                </div>
+                                <div class="form-group">
+                                    <label>Accent Color</label>
+                                    <input type="color" id="settingsAccentColor">
+                                </div>
+                                <div class="form-group">
+                                    <label>Hero Title</label>
+                                    <input type="text" id="settingsHeroTitle">
+                                </div>
+                                <div class="form-group">
+                                    <label>Hero Subtitle</label>
+                                    <input type="text" id="settingsHeroSubtitle">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn-primary">Save Settings</button>
+                            <div id="settingsFeedback" class="form-feedback"></div>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- ==========================================
+    PROJECT MODAL
+    ========================================== -->
+    <div id="projectModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="projectModalTitle">New Project</h3>
+                <button class="modal-close" onclick="closeModal('projectModal')">×</button>
+            </div>
+            <form id="projectForm" class="modal-form">
+                <input type="hidden" id="projectFormId">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="projectTitle" required>
+                </div>
+                <div class="form-group">
+                    <label>Slug</label>
+                    <input type="text" id="projectSlug" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="projectDescription" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="projectStatus">
+                        <option value="Concept">Concept</option>
+                        <option value="Research">Research</option>
+                        <option value="Planning">Planning</option>
+                        <option value="Development">Development</option>
+                        <option value="Testing">Testing</option>
+                        <option value="Production">Production</option>
+                        <option value="Maintenance">Maintenance</option>
+                        <option value="Archived">Archived</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Tech Stack (comma separated)</label>
+                    <input type="text" id="projectTechStack" placeholder="Flutter, Java, PostgreSQL">
+                </div>
+                <div class="form-group">
+                    <label><input type="checkbox" id="projectFeatured"> Featured</label>
+                </div>
+                <div class="form-group">
+                    <label><input type="checkbox" id="projectPublished"> Published</label>
+                </div>
+                <button type="submit" class="btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==========================================
+    BLOG MODAL
+    ========================================== -->
+    <div id="blogModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="blogModalTitle">New Blog Post</h3>
+                <button class="modal-close" onclick="closeModal('blogModal')">×</button>
+            </div>
+            <form id="blogForm" class="modal-form">
+                <input type="hidden" id="blogFormId">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="blogTitle" required>
+                </div>
+                <div class="form-group">
+                    <label>Slug</label>
+                    <input type="text" id="blogSlug" required>
+                </div>
+                <div class="form-group">
+                    <label>Excerpt</label>
+                    <textarea id="blogExcerpt" rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Content</label>
+                    <textarea id="blogContent" rows="8"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="blogStatus">
+                        <option value="Draft">Draft</option>
+                        <option value="Published">Published</option>
+                        <option value="Archived">Archived</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/supabase.js"></script>
+    <script src="/js/admin.js"></script>
+</body>
+</html>
