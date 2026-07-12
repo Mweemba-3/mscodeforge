@@ -2,8 +2,8 @@
 // MS CODEFORGE - Supabase Client
 // ============================================
 
-const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+const SUPABASE_URL = 'https://abdvokmzvnezyijebxmy.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiZHZva216dm5lenlpamVieG15Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM4ODQ2ODAsImV4cCI6MjA5OTQ2MDY4MH0.iWUs4fInt8oQZm4Bo2Ql7TA1p98fN5BbyQ2ZGAC_Wio';
 
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
