@@ -13,19 +13,25 @@ class MS_CodeForge_API {
     // ==========================================
     
     static async signIn(username, password) {
-        const { data, error } = await supabase
-            .from('admin_users')
-            .select('*')
-            .eq('username', username)
-            .eq('password', password)
-            .single();
+        try {
+            const { data, error } = await supabase
+                .from('admin_users')
+                .select('*')
+                .eq('username', username)
+                .eq('password', password)
+                .single();
 
-        if (error || !data) {
-            throw new Error('Invalid credentials');
+            if (error || !data) {
+                throw new Error('Invalid credentials');
+            }
+
+            // Store session
+            sessionStorage.setItem('admin_user', JSON.stringify(data));
+            return data;
+        } catch (error) {
+            console.error('Sign in error:', error);
+            throw error;
         }
-
-        sessionStorage.setItem('admin_user', JSON.stringify(data));
-        return data;
     }
 
     static async signOut() {
@@ -39,7 +45,8 @@ class MS_CodeForge_API {
     }
 
     static async isAuthenticated() {
-        return !!sessionStorage.getItem('admin_user');
+        const user = sessionStorage.getItem('admin_user');
+        return user !== null && user !== undefined;
     }
 
     // ==========================================
@@ -190,7 +197,7 @@ class MS_CodeForge_API {
         if (error) throw error;
         
         const settings = {};
-        data.forEach(item => {
+        data.forEach(function(item) {
             settings[item.key] = item.value;
         });
         return settings;
@@ -199,7 +206,7 @@ class MS_CodeForge_API {
     static async updateSetting(key, value) {
         const { data, error } = await supabase
             .from('company_settings')
-            .update({ value, updated_at: new Date().toISOString() })
+            .update({ value: value, updated_at: new Date().toISOString() })
             .eq('key', key)
             .select()
             .single();
