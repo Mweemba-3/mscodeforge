@@ -89,9 +89,7 @@ a {
 
 /* 3. HOMEPAGE HERO SECTION */
 
-@media (max-width: 580px) {
-
-    .hero {
+.hero {
         min-height: 550px;
         padding: 70px 7%;
         background:
