@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}Page Not Found | MS CodeForge{% endblock %}
+{% block content %}
+<section class="page-banner"><p class="eyebrow">404 ERROR</p><h1>Page not found.</h1><p>The page you requested may have moved or no longer exists.</p><a class="button" href="{{ url_for('home') }}">Return home</a></section>
+{% endblock %}

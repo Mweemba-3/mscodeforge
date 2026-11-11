@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}MS CodeForge | Build. Own. Innovate.{% endblock %}
+{% block content %}
+<section class="hero">
+    <div class="hero-content">
+        <p class="eyebrow">INDEPENDENT SOFTWARE & TECHNOLOGY COMPANY</p>
+
+        <h1>
+            Build Innovative<br>
+            <span>Digital Solutions.</span>
+        </h1>
+
+        <p class="lead">
+            We engineer powerful software, applications and technology
+            solutions for a smarter tomorrow.
+        </p>
+
+        <div class="actions">
+            <a href="{{ url_for('products') }}" class="button">
+                Explore our work →
+            </a>
+
+            <a href="{{ url_for('about') }}" class="button button-outline">
+                About us
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="section intro">
+    <p class="eyebrow">WHAT WE DO</p>
+    <h2>Engineering the next generation of technology.</h2>
+    <p>MS CodeForge develops and owns software products, mobile applications, digital platforms and intelligent technology solutions.</p>
+</section>
+
+<section class="section">
+    <div class="section-heading"><div><p class="eyebrow">OUR WORK</p><h2>Selected products</h2></div><a class="text-link" href="{{ url_for('products') }}">View all products →</a></div>
+    {% if products %}
+    <div class="card-grid">
+        {% for product in products %}
+        <article class="product-card">
+            {% if product.logo %}<img class="product-logo" src="{{ media_url(product.logo) }}" alt="{{ product.name }} logo">{% endif %}
+            <p class="status">{{ product.status }}</p>
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.short_description }}</p>
+            <a class="text-link" href="{{ url_for('product_detail', slug=product.slug) }}">Explore product →</a>
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}<p class="muted">Our product portfolio will appear here as projects are published.</p>{% endif %}
+</section>
+
+<section class="section updates-section">
+    <div class="section-heading"><div><p class="eyebrow">FROM THE COMPANY</p><h2>Latest updates</h2></div><a class="text-link" href="{{ url_for('news') }}">All updates →</a></div>
+    {% if updates %}
+    <div class="card-grid">
+        {% for post in updates %}
+        <article class="product-card"><p class="muted">{{ post.created_at.strftime("%d %B %Y") }}</p><h3>{{ post.title }}</h3><p>{{ post.summary }}</p><a class="text-link" href="{{ url_for('news_detail', slug=post.slug) }}">Read update →</a></article>
+        {% endfor %}
+    </div>
+    {% else %}<p class="muted">Company announcements and development updates will appear here.</p>{% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "admin/base_admin.html" %}
+{% block content %}
+<div class="admin-title"><div><p class="eyebrow">PORTFOLIO MANAGEMENT</p><h1>{{ heading }}</h1></div><a class="text-link" href="{{ url_for('admin_products') }}">← Back to products</a></div>
+<form method="post" enctype="multipart/form-data" class="form-panel admin-form">
+    {{ form.hidden_tag() }}
+    <label>{{ form.name.label }}{{ form.name() }}{% for e in form.name.errors %}<small class="error">{{ e }}</small>{% endfor %}</label>
+    <label>{{ form.short_description.label }}{{ form.short_description() }}</label>
+    <label>{{ form.description.label }}{{ form.description(rows="7") }}</label>
+    <label>{{ form.features.label }}{{ form.features(rows="5", placeholder="Offline playback&#10;Playlist management&#10;Search") }}</label>
+    <label>{{ form.technologies.label }}{{ form.technologies() }}</label>
+    <label>{{ form.platform.label }}{{ form.platform() }}</label>
+    <label>{{ form.status.label }}{{ form.status() }}</label>
+    <label>{{ form.website_url.label }}{{ form.website_url(placeholder="https://...") }}</label>
+    <label>{{ form.download_url.label }}{{ form.download_url(placeholder="https://...") }}</label>
+    <label>Product logo <input type="file" name="logo" accept=".png,.jpg,.jpeg,.webp,.gif"></label>
+    <label>Product screenshots (you can select multiple) <input type="file" name="screenshots" accept=".png,.jpg,.jpeg,.webp,.gif" multiple></label>
+    {% if product and product.logo %}<p class="muted">Current logo: {{ product.logo }}</p>{% endif %}
+    {% if product and product.screenshots %}<p class="muted">Existing screenshots: {{ product.screenshots|length }}. New screenshots are added to the gallery.</p>{% endif %}
+    <label class="check-label">{{ form.published() }} {{ form.published.label.text }}</label>
+    {{ form.submit(class="button") }}
+</form>
+{% endblock %}

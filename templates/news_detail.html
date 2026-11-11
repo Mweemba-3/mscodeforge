@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }} | MS CodeForge{% endblock %}
+{% block content %}
+<section class="page-banner"><p class="eyebrow">COMPANY UPDATE · {{ post.created_at.strftime("%d %B %Y") }}</p><h1>{{ post.title }}</h1><p>{{ post.summary }}</p></section>
+<section class="section narrow"><div class="long-text">{{ post.body }}</div><a class="text-link" href="{{ url_for('news') }}">← Back to updates</a></section>
+{% endblock %}

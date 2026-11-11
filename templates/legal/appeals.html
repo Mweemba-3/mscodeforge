@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Counter-Notice and Appeals Policy | MS CodeForge{% endblock %}
+{% block content %}
+<section class="page-banner legal-banner">
+  <p class="eyebrow">MS CODEFORGE LEGAL CENTRE</p>
+  <h1>Counter-Notice and Appeals Policy</h1>
+  <p>Last updated: 9 November 2026</p>
+</section>
+<main class="section legal-document">
+  <div class="legal-document-intro">This Policy explains how a person may challenge an MS CodeForge decision to restrict, disable or remove a resource or access to a Service.</div>
+  <section class="legal-clause">
+  <h2>1. Who may appeal</h2>
+  <p>A person or organisation materially affected by a removal, restriction, suspension or enforcement decision may appeal, unless a legal order or safety requirement prevents review or disclosure.</p>
+</section>
+<section class="legal-clause">
+  <h2>2. What to submit</h2>
+  <p>Provide the case reference, affected URL or product, the decision being challenged, reasons the decision is mistaken or disproportionate, supporting evidence, your authority to act and current contact details.</p>
+</section>
+<section class="legal-clause">
+  <h2>3. Grounds</h2>
+  <p>Grounds may include mistaken identity, ownership or licence, inaccurate facts, lawful authorisation, lack of jurisdiction, disproportionate action, new evidence or completion of corrective steps.</p>
+</section>
+<section class="legal-clause">
+  <h2>4. Review</h2>
+  <p>A reviewer should, where practicable, be different from the person who made the initial decision. We may request more information and may keep an interim restriction in place while a credible risk remains.</p>
+</section>
+<section class="legal-clause">
+  <h2>5. Target times</h2>
+  <p>We aim to acknowledge complete appeals within five business days and target a decision within ten business days after receiving all necessary information. Complex matters, legal processes or urgent risks may take longer. These are service targets, not statutory deadlines.</p>
+</section>
+<section class="legal-clause">
+  <h2>6. Outcomes</h2>
+  <p>We may uphold, vary or reverse the decision; restore access; maintain a restriction; request further evidence; or refer the matter for legal or security review. We will give reasons where lawful and appropriate.</p>
+</section>
+<section class="legal-clause">
+  <h2>7. External remedies</h2>
+  <p>An internal appeal does not remove a person’s right to approach a competent regulator, tribunal or court.</p>
+</section>
+  <div class="legal-document-end">
+    <p>This policy does not exclude rights or remedies that cannot lawfully be excluded under applicable law.</p>
+    <a class="text-link" href="{{ url_for('legal_centre') }}">Back to Legal Centre</a>
+  </div>
+</main>
+{% endblock %}

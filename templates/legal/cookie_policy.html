@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Cookie Policy | MS CodeForge{% endblock %}
+{% block content %}
+<section class="page-banner legal-banner">
+  <p class="eyebrow">MS CODEFORGE LEGAL CENTRE</p>
+  <h1>Cookie Policy</h1>
+  <p>Last updated: 9 November 2026</p>
+</section>
+<main class="section legal-document">
+  <div class="legal-document-intro">This Cookie Policy explains how cookies and similar technologies may be used on the MS CodeForge website. The descriptions below must be checked against the actual deployed website and its third-party scripts.</div>
+  <section class="legal-clause">
+  <h2>1. What cookies are</h2>
+  <p>Cookies are small files stored by a browser. Similar technologies may store or read information on a device. They can support session management, security, preferences, analytics or advertising.</p>
+</section>
+<section class="legal-clause">
+  <h2>2. Essential cookies</h2>
+  <p>The website may use strictly necessary cookies for functions such as administrator sessions, CSRF protection and security. These cookies support requested functionality and should not be used for unrelated tracking.</p>
+</section>
+<section class="legal-clause">
+  <h2>3. Optional cookies</h2>
+  <p>Analytics, personalisation and advertising cookies must not be activated merely because this Policy mentions them. If introduced, the website must explain their purpose, providers, duration and how consent can be managed, and obtain consent where required by applicable law.</p>
+</section>
+<section class="legal-clause">
+  <h2>4. Managing cookies</h2>
+  <p>You can manage or delete cookies through browser settings. Blocking essential cookies may prevent login or other website functions from working.</p>
+</section>
+<section class="legal-clause">
+  <h2>5. Third-party technologies</h2>
+  <p>Embedded media, analytics, fonts, maps or other external services may set their own cookies or collect technical data. Their use must be inventoried and disclosed before deployment.</p>
+</section>
+<section class="legal-clause">
+  <h2>6. Updates and contact</h2>
+  <p>We will update this Policy if the website’s cookie practices change. Contact the published privacy contact with questions.</p>
+</section>
+  <div class="legal-document-end">
+    <p>This policy does not exclude rights or remedies that cannot lawfully be excluded under applicable law.</p>
+    <a class="text-link" href="{{ url_for('legal_centre') }}">Back to Legal Centre</a>
+  </div>
+</main>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Legal Centre | MS CodeForge{% endblock %}
+{% block content %}
+<section class="page-banner legal-banner">
+  <p class="eyebrow">POLICIES & GOVERNANCE</p>
+  <h1>Legal <span>Centre</span></h1>
+  <p>Policies governing the use, security and protection of MS CodeForge services.</p>
+</section>
+<main class="section">
+  <div class="legal-grid">
+    <a class="legal-card" href="{{ url_for('legal_page', slug='terms-of-service') }}">
+  <span class="legal-card-label">POLICY</span>
+  <h2>Terms of Service</h2>
+  <span class="legal-card-link">Read policy →</span>
+</a>
+<a class="legal-card" href="{{ url_for('legal_page', slug='privacy-policy') }}">
+  <span class="legal-card-label">POLICY</span>
+  <h2>Privacy Policy</h2>
+  <span class="legal-card-link">Read policy →</span>
+</a>
+<a class="legal-card" href="{{ url_for('legal_page', slug='cookie-policy') }}">
+  <span class="legal-card-label">POLICY</span>
+  <h2>Cookie Policy</h2>
+  <span class="legal-card-link">Read policy →</span>
+</a>
+<a class="legal-card" href="{{ url_for('legal_page', slug='acceptable-use') }}">
+  <span class="legal-card-label">POLICY</span>
+  <h2>Acceptable Use Policy</h2>
+  <span class="legal-card-link">Read policy →</span>
+</a>
+<a class="legal-card" href="{{ url_for('legal_page', slug='content-removal') }}">
+  <span class="legal-card-label">POLICY</span>
+  <h2>Content and Resource Removal Policy</h2>
+  <span class="legal-card-link">Read policy →</span>
+</a>
+<a class="legal-card" href="{{ url_for('legal_page', slug='copyright-notice') }}">
+  <span class="legal-card-label">POLICY</span>
+  <h2>Copyright and Intellectual Property Complaints</h2>
+  <span class="legal-card-link">Read policy →</span>
+</a>
+<a class="legal-card" href="{{ url_for('legal_page', slug='appeals') }}">
+  <span class="legal-card-label">POLICY</span>
+  <h2>Counter-Notice and Appeals Policy</h2>
+  <span class="legal-card-link">Read policy →</span>
+</a>
+<a class="legal-card" href="{{ url_for('legal_page', slug='account-enforcement') }}">
+  <span class="legal-card-label">POLICY</span>
+  <h2>Account Suspension and Termination Policy</h2>
+  <span class="legal-card-link">Read policy →</span>
+</a>
+<a class="legal-card" href="{{ url_for('legal_page', slug='legal-requests') }}">
+  <span class="legal-card-label">POLICY</span>
+  <h2>Government and Law-Enforcement Requests</h2>
+  <span class="legal-card-link">Read policy →</span>
+</a>
+<a class="legal-card" href="{{ url_for('legal_page', slug='software-licensing') }}">
+  <span class="legal-card-label">POLICY</span>
+  <h2>Software Licence Terms</h2>
+  <span class="legal-card-link">Read policy →</span>
+</a>
+<a class="legal-card" href="{{ url_for('legal_page', slug='service-availability') }}">
+  <span class="legal-card-label">POLICY</span>
+  <h2>Service Availability and Maintenance Policy</h2>
+  <span class="legal-card-link">Read policy →</span>
+</a>
+<a class="legal-card" href="{{ url_for('legal_page', slug='third-party') }}">
+  <span class="legal-card-label">POLICY</span>
+  <h2>Third-Party Services and External Links</h2>
+  <span class="legal-card-link">Read policy →</span>
+</a>
+<a class="legal-card" href="{{ url_for('legal_page', slug='security-disclosure') }}">
+  <span class="legal-card-label">POLICY</span>
+  <h2>Security Vulnerability Disclosure Policy</h2>
+  <span class="legal-card-link">Read policy →</span>
+</a>
+<a class="legal-card" href="{{ url_for('legal_page', slug='complaints-disputes') }}">
+  <span class="legal-card-label">POLICY</span>
+  <h2>Complaints and Dispute Resolution</h2>
+  <span class="legal-card-link">Read policy →</span>
+</a>
+  </div>
+</main>
+{% endblock %}

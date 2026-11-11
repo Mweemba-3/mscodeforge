@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Complaints and Dispute Resolution | MS CodeForge{% endblock %}
+{% block content %}
+<section class="page-banner legal-banner">
+  <p class="eyebrow">MS CODEFORGE LEGAL CENTRE</p>
+  <h1>Complaints and Dispute Resolution</h1>
+  <p>Last updated: 9 November 2026</p>
+</section>
+<main class="section legal-document">
+  <div class="legal-document-intro">MS CodeForge aims to handle complaints fairly, consistently and in a timely manner. This Policy provides an internal route and does not restrict statutory rights.</div>
+  <section class="legal-clause">
+  <h2>1. Submit a complaint</h2>
+  <p>Identify yourself and the affected Service, describe the issue, provide dates and relevant evidence, explain the outcome sought and provide safe contact details. Avoid sending unnecessary sensitive personal data.</p>
+</section>
+<section class="legal-clause">
+  <h2>2. Acknowledgement and assessment</h2>
+  <p>We aim to acknowledge complaints within five business days and may request further information. We will route the complaint to an appropriate person and assess urgency, evidence and applicable obligations.</p>
+</section>
+<section class="legal-clause">
+  <h2>3. Response</h2>
+  <p>We aim to provide a substantive response within fifteen business days after receiving sufficient information. Complex matters may take longer; we will explain material delays where practicable. These are internal targets, not statutory deadlines.</p>
+</section>
+<section class="legal-clause">
+  <h2>4. Escalation</h2>
+  <p>If you are dissatisfied, request an internal review and explain why. You may also approach a competent regulator, consumer body, tribunal or court where the law permits.</p>
+</section>
+<section class="legal-clause">
+  <h2>5. Governing law</h2>
+  <p>Unless mandatory law requires otherwise, these Policies are interpreted under the laws of the Republic of Zambia. Jurisdiction and remedies remain subject to applicable law.</p>
+</section>
+  <div class="legal-document-end">
+    <p>This policy does not exclude rights or remedies that cannot lawfully be excluded under applicable law.</p>
+    <a class="text-link" href="{{ url_for('legal_centre') }}">Back to Legal Centre</a>
+  </div>
+</main>
+{% endblock %}

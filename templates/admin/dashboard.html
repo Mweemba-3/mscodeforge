@@ -1,0 +1,6 @@
+{% extends "admin/base_admin.html" %}
+{% block content %}
+<div class="admin-title"><div><p class="eyebrow">CONTROL CENTRE</p><h1>Dashboard</h1></div></div>
+<div class="stats-grid"><div class="stat-card"><span>Total products</span><strong>{{ product_count }}</strong></div><div class="stat-card"><span>Published products</span><strong>{{ published_count }}</strong></div><div class="stat-card"><span>News updates</span><strong>{{ news_count }}</strong></div><div class="stat-card"><span>Contact messages</span><strong>{{ message_count }}</strong></div></div>
+<div class="admin-panel"><div class="section-heading"><h2>Recent enquiries</h2><a class="text-link" href="{{ url_for('admin_messages') }}">View all</a></div>{% if recent_messages %}{% for message in recent_messages %}<div class="message-row"><strong>{{ message.subject }}</strong><span>{{ message.name }} · {{ message.email }}</span><small>{{ message.created_at.strftime("%d %b %Y %H:%M") }}</small></div>{% endfor %}{% else %}<p class="muted">No enquiries received yet.</p>{% endif %}</div>
+{% endblock %}

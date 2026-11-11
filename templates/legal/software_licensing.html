@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Software Licence Terms | MS CodeForge{% endblock %}
+{% block content %}
+<section class="page-banner legal-banner">
+  <p class="eyebrow">MS CODEFORGE LEGAL CENTRE</p>
+  <h1>Software Licence Terms</h1>
+  <p>Last updated: 9 November 2026</p>
+</section>
+<main class="section legal-document">
+  <div class="legal-document-intro">These general licence principles apply to software made available by MS CodeForge unless a product-specific licence, third-party open-source licence or separate written agreement says otherwise.</div>
+  <section class="legal-clause">
+  <h2>1. Licence grant</h2>
+  <p>Subject to compliance with the applicable terms, MS CodeForge grants the user a limited, non-exclusive, non-transferable and revocable licence to use the relevant software for its documented purpose. The scope, number of users, devices, territory and duration must be specified in the relevant product listing or agreement.</p>
+</section>
+<section class="legal-clause">
+  <h2>2. Restrictions</h2>
+  <p>Unless expressly permitted by a product licence or non-excludable law, you must not redistribute, sublicense, sell, rent, modify, create derivative works from, remove proprietary notices from or commercially exploit the software outside the granted licence.</p>
+</section>
+<section class="legal-clause">
+  <h2>3. Ownership</h2>
+  <p>The software is licensed, not sold. MS CodeForge or its licensors retain ownership of their intellectual property. Third-party components remain owned by their respective licensors.</p>
+</section>
+<section class="legal-clause">
+  <h2>4. Open-source components</h2>
+  <p>Open-source components are governed by their applicable licence terms. If those terms conflict with this general policy for a component, the applicable open-source licence governs that component.</p>
+</section>
+<section class="legal-clause">
+  <h2>5. Updates and support</h2>
+  <p>Updates, maintenance and support are provided only as described for the relevant product or in a separate agreement. A product may require updates for security, compatibility or continued operation.</p>
+</section>
+<section class="legal-clause">
+  <h2>6. Termination</h2>
+  <p>The licence may terminate when the applicable agreement ends or when a material breach remains uncured after any required notice and cure period. On termination, stop using and destroy or return copies where required, subject to mandatory law and licence terms.</p>
+</section>
+<section class="legal-clause">
+  <h2>7. Product-specific terms</h2>
+  <p>Do not publish a product for download until its licence, supported platforms, dependencies, update policy and support status have been confirmed.</p>
+</section>
+  <div class="legal-document-end">
+    <p>This policy does not exclude rights or remedies that cannot lawfully be excluded under applicable law.</p>
+    <a class="text-link" href="{{ url_for('legal_centre') }}">Back to Legal Centre</a>
+  </div>
+</main>
+{% endblock %}

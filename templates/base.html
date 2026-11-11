@@ -1,0 +1,201 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta
+        name="description"
+        content="MS CodeForge — Digital Excellence and Solutions."
+    >
+
+    <title>
+        {% block title %}
+            MS CodeForge | Digital Excellence and Solutions
+        {% endblock %}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/legal.css') }}"
+    >
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="site-header">
+
+        <a class="brand" href="{{ url_for('home') }}">
+
+            <img
+                src="{{ url_for('static', filename='images/logo.png') }}"
+                alt="MS CodeForge logo"
+            >
+
+            <span>
+                <strong>MS <b>CodeForge</b></strong>
+                <small>Digital Excellence and Solutions</small>
+            </span>
+
+        </a>
+
+        <nav class="navbar">
+
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('products') }}">Products</a>
+            <a href="{{ url_for('about') }}">About</a>
+            <a href="{{ url_for('news') }}">News</a>
+            <a href="{{ url_for('contact') }}">Contact</a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- FLASH MESSAGES -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            <div class="flash-wrap">
+
+                {% for category, message in messages %}
+
+                    <div class="flash {{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <!-- PAGE CONTENT -->
+    {% block content %}
+    {% endblock %}
+
+
+    <!-- FOOTER -->
+    <footer class="site-footer site-footer-expanded">
+
+        <!-- COMPANY BRAND -->
+        <div class="footer-brand">
+
+            <a
+                class="footer-brand-name"
+                href="{{ url_for('home') }}"
+            >
+                MS <span>CodeForge</span>
+            </a>
+
+            <p>Digital Excellence and Solutions</p>
+
+        </div>
+
+
+        <!-- EXPLORE -->
+        <div class="footer-column">
+
+            <h4>Explore</h4>
+
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('products') }}">Products</a>
+            <a href="{{ url_for('about') }}">About</a>
+            <a href="{{ url_for('news') }}">News</a>
+            <a href="{{ url_for('contact') }}">Contact</a>
+            <a href="{{ url_for('admin_login') }}">Admin Login</a>
+
+        </div>
+
+
+        <!-- LEGAL -->
+        <div class="footer-column">
+
+            <h4>Legal</h4>
+
+            <a href="{{ url_for('legal_centre') }}">Legal Centre</a>
+
+            <a href="{{ url_for('legal_page', slug='terms-of-service') }}">
+                Terms of Service
+            </a>
+
+            <a href="{{ url_for('legal_page', slug='privacy-policy') }}">
+                Privacy Policy
+            </a>
+
+            <a href="{{ url_for('legal_page', slug='cookie-policy') }}">
+                Cookie Policy
+            </a>
+
+            <a href="{{ url_for('legal_page', slug='software-licensing') }}">
+                Software Licence
+            </a>
+
+            <a href="{{ url_for('legal_page', slug='acceptable-use') }}">
+                Acceptable Use
+            </a>
+
+        </div>
+
+
+        <!-- TRUST AND SAFETY -->
+        <div class="footer-column">
+
+            <h4>Trust & Safety</h4>
+
+            <a href="{{ url_for('legal_page', slug='content-removal') }}">
+                Content Removal
+            </a>
+
+            <a href="{{ url_for('legal_page', slug='copyright-notice') }}">
+                Copyright Complaints
+            </a>
+
+            <a href="{{ url_for('legal_page', slug='appeals') }}">
+                Appeals & Counter-Notices
+            </a>
+
+            <a href="{{ url_for('legal_page', slug='account-enforcement') }}">
+                Account Enforcement
+            </a>
+
+            <a href="{{ url_for('legal_page', slug='legal-requests') }}">
+                Government Requests
+            </a>
+
+            <a href="{{ url_for('legal_page', slug='security-disclosure') }}">
+                Security Disclosure
+            </a>
+
+        </div>
+
+
+        <!-- FOOTER BOTTOM -->
+        <div class="footer-bottom">
+
+            <span>
+                © {{ current_year }} MS CodeForge. All rights reserved.
+            </span>
+
+            <a href="{{ url_for('legal_page', slug='complaints-disputes') }}">
+                Complaints & Disputes
+            </a>
+
+        </div>
+
+    </footer>
+
+</body>
+</html>

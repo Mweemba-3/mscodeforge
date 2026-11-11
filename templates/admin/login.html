@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Admin Login | MS CodeForge{% endblock %}
+{% block content %}
+<section class="page-banner"><p class="eyebrow">RESTRICTED ACCESS</p><h1>Administrator <span>Login</span></h1></section>
+<section class="section narrow"><form method="post" class="form-panel">{{ form.hidden_tag() }}<label>{{ form.username.label }}{{ form.username(autocomplete="username") }}</label><label>{{ form.password.label }}{{ form.password(autocomplete="current-password") }}</label>{{ form.submit(class="button") }}</form></section>
+{% endblock %}

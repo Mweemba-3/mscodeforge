@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Third-Party Services and External Links | MS CodeForge{% endblock %}
+{% block content %}
+<section class="page-banner legal-banner">
+  <p class="eyebrow">MS CODEFORGE LEGAL CENTRE</p>
+  <h1>Third-Party Services and External Links</h1>
+  <p>Last updated: 9 November 2026</p>
+</section>
+<main class="section legal-document">
+  <div class="legal-document-intro">MS CodeForge Services may link to or integrate with third-party websites, software, APIs, hosting, payment processors, app stores or other services.</div>
+  <section class="legal-clause">
+  <h2>1. Independent providers</h2>
+  <p>Third-party services are operated by their respective providers and may be governed by separate terms and privacy notices. A link or integration does not mean MS CodeForge owns or endorses every aspect of that service.</p>
+</section>
+<section class="legal-clause">
+  <h2>2. Data sharing</h2>
+  <p>Where an integration requires personal data to be shared, the relevant product documentation and Privacy Policy should identify the purpose, provider and applicable safeguards.</p>
+</section>
+<section class="legal-clause">
+  <h2>3. Availability and changes</h2>
+  <p>Third-party providers may change, suspend or discontinue their services. This may affect functionality that depends on them.</p>
+</section>
+<section class="legal-clause">
+  <h2>4. User responsibility</h2>
+  <p>Review third-party terms and privacy notices before using those services. Do not provide credentials or sensitive information to an external service unless you have verified its legitimacy.</p>
+</section>
+<section class="legal-clause">
+  <h2>5. No unlawful exclusion</h2>
+  <p>Nothing in this Policy excludes responsibility that cannot lawfully be excluded under applicable law.</p>
+</section>
+  <div class="legal-document-end">
+    <p>This policy does not exclude rights or remedies that cannot lawfully be excluded under applicable law.</p>
+    <a class="text-link" href="{{ url_for('legal_centre') }}">Back to Legal Centre</a>
+  </div>
+</main>
+{% endblock %}

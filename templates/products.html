@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Our Products | MS CodeForge{% endblock %}
+{% block content %}
+<section class="page-banner"><p class="eyebrow">THE PORTFOLIO</p><h1>Products & <span>Solutions</span></h1><p>Explore software and technology developed by MS CodeForge.</p></section>
+<section class="section">
+    <form class="search-form" method="get" action="{{ url_for('products') }}">
+        <input type="search" name="q" value="{{ search_term }}" placeholder="Search products, features, technologies...">
+        <button class="button" type="submit">Search</button>
+        {% if search_term %}<a class="text-link" href="{{ url_for('products') }}">Clear</a>{% endif %}
+    </form>
+    {% if products %}
+    <div class="card-grid">
+        {% for product in products %}
+        <article class="product-card">
+            {% if product.logo %}<img class="product-logo" src="{{ media_url(product.logo) }}" alt="{{ product.name }} logo">{% endif %}
+            <p class="status">{{ product.status }} · {{ product.platform or "Software" }}</p>
+            <h2>{{ product.name }}</h2><p>{{ product.short_description }}</p>
+            <a class="text-link" href="{{ url_for('product_detail', slug=product.slug) }}">View product →</a>
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}<p class="muted">{% if search_term %}No published products matched your search.{% else %}No products have been published yet.{% endif %}</p>{% endif %}
+</section>
+{% endblock %}

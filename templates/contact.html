@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Contact | MS CodeForge{% endblock %}
+{% block content %}
+<section class="page-banner"><p class="eyebrow">LET'S CONNECT</p><h1>Contact <span>MS CodeForge</span></h1><p>Have a question, collaboration idea or project enquiry? Send us a message.</p></section>
+<section class="section narrow">
+    <form method="post" class="form-panel">
+        {{ form.hidden_tag() }}
+        <label>{{ form.name.label }}{{ form.name(placeholder="Your name") }}{% for e in form.name.errors %}<small class="error">{{ e }}</small>{% endfor %}</label>
+        <label>{{ form.email.label }}{{ form.email(placeholder="you@example.com") }}{% for e in form.email.errors %}<small class="error">{{ e }}</small>{% endfor %}</label>
+        <label>{{ form.subject.label }}{{ form.subject(placeholder="What is this about?") }}{% for e in form.subject.errors %}<small class="error">{{ e }}</small>{% endfor %}</label>
+        <label>{{ form.message.label }}{{ form.message(rows="7", placeholder="Write your message...") }}{% for e in form.message.errors %}<small class="error">{{ e }}</small>{% endfor %}</label>
+        {{ form.submit(class="button") }}
+    </form>
+</section>
+{% endblock %}

@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}Upload Too Large | MS CodeForge{% endblock %}
+{% block content %}
+<section class="page-banner"><p class="eyebrow">UPLOAD ERROR</p><h1>File too large.</h1><p>Your request exceeded the allowed upload size. Please reduce the image size and try again.</p><a class="button" href="{{ url_for('home') }}">Return home</a></section>
+{% endblock %}

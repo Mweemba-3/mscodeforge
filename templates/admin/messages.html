@@ -1,0 +1,5 @@
+{% extends "admin/base_admin.html" %}
+{% block content %}
+<div class="admin-title"><div><p class="eyebrow">INCOMING ENQUIRIES</p><h1>Contact messages</h1></div></div>
+<div class="admin-panel">{% if messages %}{% for message in messages %}<article class="inbox-item"><div class="section-heading"><h2>{{ message.subject }}</h2><span class="status">{{ "Read" if message.read else "Unread" }}</span></div><p class="muted">{{ message.name }} · {{ message.email }} · {{ message.created_at.strftime("%d %b %Y %H:%M") }}</p><p class="long-text">{{ message.message }}</p>{% if not message.read %}<form method="post" action="{{ url_for('admin_message_read', message_id=message.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="button button-small">Mark as read</button></form>{% endif %}</article>{% endfor %}{% else %}<p class="muted">No contact messages yet.</p>{% endif %}</div>
+{% endblock %}

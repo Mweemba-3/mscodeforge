@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}{{ product.name }} | MS CodeForge{% endblock %}
+{% block content %}
+<section class="page-banner"><p class="eyebrow">MS CODEFORGE PRODUCT</p><h1>{{ product.name }}</h1><p>{{ product.short_description }}</p></section>
+<section class="section detail-layout">
+    <div>
+        <p class="status">{{ product.status }}{% if product.platform %} · {{ product.platform }}{% endif %}</p>
+        <h2>About this product</h2>
+        <div class="long-text">{{ product.description }}</div>
+        {% if product.features %}
+        <h2>Key features</h2><ul class="feature-list">{% for feature in product.features.splitlines() if feature.strip() %}<li>{{ feature }}</li>{% endfor %}</ul>
+        {% endif %}
+        {% if product.technologies %}<h2>Technologies</h2><p>{{ product.technologies }}</p>{% endif %}
+        <div class="actions product-actions">
+            {% if product.website_url %}<a class="button" href="{{ product.website_url }}" target="_blank" rel="noopener noreferrer">Visit product ↗</a>{% endif %}
+            {% if product.download_url %}<a class="button button-outline" href="{{ product.download_url }}" target="_blank" rel="noopener noreferrer">Download ↗</a>{% endif %}
+        </div>
+    </div>
+    {% if product.logo %}<aside><img class="detail-logo" src="{{ media_url(product.logo) }}" alt="{{ product.name }} logo"></aside>{% endif %}
+</section>
+{% if product.screenshots %}
+<section class="section"><p class="eyebrow">GALLERY</p><h2>Product screenshots</h2><div class="gallery">{% for image in product.screenshots %}<img src="{{ media_url(image) }}" alt="{{ product.name }} screenshot">{% endfor %}</div></section>
+{% endif %}
+{% endblock %}

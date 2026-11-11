@@ -1,0 +1,7 @@
+{% extends "admin/base_admin.html" %}
+{% block content %}
+<div class="admin-title"><div><p class="eyebrow">PORTFOLIO MANAGEMENT</p><h1>Products</h1></div><a class="button" href="{{ url_for('admin_product_new') }}">+ Add product</a></div>
+<div class="admin-panel">
+{% if products %}<div class="table-wrap"><table><thead><tr><th>Product</th><th>Status</th><th>Visibility</th><th>Actions</th></tr></thead><tbody>{% for product in products %}<tr><td><strong>{{ product.name }}</strong><small>{{ product.slug }}</small></td><td>{{ product.status }}</td><td>{{ "Published" if product.published else "Draft" }}</td><td class="table-actions"><a href="{{ url_for('admin_product_edit', product_id=product.id) }}">Edit</a><form method="post" action="{{ url_for('admin_product_delete', product_id=product.id) }}" onsubmit="return confirm('Delete this product?');"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="danger-link">Delete</button></form></td></tr>{% endfor %}</tbody></table></div>{% else %}<p class="muted">No products yet. Add your first product.</p>{% endif %}
+</div>
+{% endblock %}
