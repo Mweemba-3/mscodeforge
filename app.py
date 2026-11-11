@@ -46,7 +46,7 @@ app = Flask(
 secret_key = os.getenv("SECRET_KEY")
 database_url = os.getenv("DATABASE_URL")
 if not secret_key or len(secret_key) < 32:
-    raise RuntimeError("a79790111fa2e79ab64cafe333dfc372e857e335ffe3dd6b47e6537741b6baea")
+    raise RuntimeError("Set SECRET_KEY to a random value of at least 32 characters.")
 if not database_url:
     raise RuntimeError("DATABASE_URL is missing. Configure hosted PostgreSQL.")
 
