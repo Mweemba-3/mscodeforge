@@ -89,23 +89,20 @@ a {
 
 /* 3. HOMEPAGE HERO SECTION */
 
-.hero {
-    position: relative;
-    min-height: 650px;
-    display: flex;
-    align-items: center;
-    padding: 100px 8%;
-    overflow: hidden;
+@media (max-width: 580px) {
 
-    background:
-        linear-gradient(
-            90deg,
-            rgba(15, 15, 17, 0.94) 0%,
-            rgba(15, 15, 17, 0.78) 48%,
-            rgba(15, 15, 17, 0.30) 100%
-        ),
-        url("/static/images/team.png") center / cover no-repeat;
-}
+    .hero {
+        min-height: 550px;
+        padding: 70px 7%;
+        background:
+            linear-gradient(
+                90deg,
+                rgba(15, 15, 17, 0.96) 0%,
+                rgba(15, 15, 17, 0.86) 65%,
+                rgba(15, 15, 17, 0.72) 100%
+            ),
+            url("/static/images/team.png") 20% center / cover no-repeat;
+    }
 
 .hero-content {
     position: relative;
