@@ -89,18 +89,24 @@ a {
 
 /* 3. HOMEPAGE HERO SECTION */
 
+
 .hero {
-        min-height: 550px;
-        padding: 70px 7%;
-        background:
-            linear-gradient(
-                90deg,
-                rgba(15, 15, 17, 0.96) 0%,
-                rgba(15, 15, 17, 0.86) 65%,
-                rgba(15, 15, 17, 0.72) 100%
-            ),
-            url("/static/images/team.png") 20% center / cover no-repeat;
-    }
+    min-height: 550px;
+    padding: 70px 7%;
+    background-color: #0F0F11;
+
+    background-image:
+        linear-gradient(
+            rgba(15, 15, 17, 0.72),
+            rgba(15, 15, 17, 0.82)
+        ),
+        url("/static/images/team.png");
+
+    background-size: 100% 100%, contain;
+    background-position: center, center;
+    background-repeat: no-repeat, no-repeat;
+}
+
 
 .hero-content {
     position: relative;
